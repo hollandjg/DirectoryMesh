@@ -23,9 +23,9 @@ public class Main {
 
     private static void declareOptions() {
         optionDeclarations = new Options();
-        Option masterPath = Option.builder(masterPathOptionName).hasArg().desc("path where the user wants easy access to the external data").build();
+        Option masterPath = Option.builder("m").longOpt(masterPathOptionName).required(true).type(String.class).hasArg().desc("path where the user wants easy access to the external data").build();
         optionDeclarations.addOption(masterPath);
-        Option dataPath = Option.builder(dataPathOptionName).hasArg().desc("path containing the external data").build();
+        Option dataPath = Option.builder("d").longOpt(dataPathOptionName).required(true).type(String.class).hasArg().desc("path containing the external data").build();
         optionDeclarations.addOption(dataPath);
         optionDeclarations.addOption("n", dryRunOptionName, false, "dry run");
         optionDeclarations.addOption("q", quietOptionName, false, "quiet");
@@ -46,6 +46,7 @@ public class Main {
         String dataPath = commandLine.getOptionValue(dataPathOptionName);
         boolean quiet = commandLine.hasOption(quietOptionName);
         boolean dryRun = commandLine.hasOption(dryRunOptionName);
+        System.out.println("master: " + masterPath + " data: " + dataPath + " " + (quiet?"quiet ":"") + (dryRun?"dry run ":"") );
         directoryMesh = new DirectoryMesh(masterPath, dataPath, quiet, dryRun);
     }
 

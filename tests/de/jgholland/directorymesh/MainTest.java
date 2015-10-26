@@ -90,9 +90,10 @@ public class MainTest {
 
     @Test
     public void testMain() throws Exception {
-        de.jgholland.directorymesh.Main.main(new String[] {"-nq", masterDirectoryPathString, dataDirectoryPathString});
-        de.jgholland.directorymesh.Main.main(new String[] {"-q",  masterDirectoryPathString, dataDirectoryPathString});
-        de.jgholland.directorymesh.Main.main(new String[] {"-n",  masterDirectoryPathString, dataDirectoryPathString});
+        Main mainNQ = new de.jgholland.directorymesh.Main();
+        mainNQ.main(new String[] { "-m", masterDirectoryPathString, "-d", dataDirectoryPathString, "-nq"});
+        de.jgholland.directorymesh.Main.main(new String[] {"-q",  "-m", masterDirectoryPathString, "-d", dataDirectoryPathString});
+        de.jgholland.directorymesh.Main.main(new String[] {"-m", masterDirectoryPathString, "-d", dataDirectoryPathString, "-n"});
 
     }
 }
