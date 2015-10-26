@@ -15,7 +15,7 @@ public class ComparisonRunner {
         this.dataPath = dataPath;
     }
 
-    public FileOperation pickOperation(String relativePathWithinTargetDirectory) {
+    public FileOperation pickOperation(String relativePathWithinDataDirectory) {
         return null;
     }
 }
