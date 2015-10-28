@@ -1,6 +1,7 @@
 package de.jgholland.directorymesh.testutilities;
 
 import de.jgholland.directorymesh.utilities.MasterDataDirectoryPaths;
+import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,31 +15,49 @@ import java.nio.file.Paths;
 public class TestDirectoryEnvironment {
 
     Path temporaryDirectoryPath;
-    String temporaryDirectoryPathString;
-    Path masterDirectoryPath;
-    Path dataDirectoryPath;
     MasterDataDirectoryPaths masterDataDirectoryPaths;
+    String testResourcePath = "testresources";
+    String masterSubdirectoryName = "master";
+    String dataSubdirectoryName = "data";
 
-    public TestDirectoryEnvironment() throws IOException {
+    public TestDirectoryEnvironment(String testName) throws IOException {
+        createNewTemporaryDirectory();
+        copyTestResourceDirectoryIntoTemporaryDirectory(testName);
+    }
+
+    private void createNewTemporaryDirectory() throws IOException {
         temporaryDirectoryPath = Files.createTempDirectory("directoryMesh");
-        masterDirectoryPath = Paths.get(temporaryDirectoryPath.toString(), "master/");
-        dataDirectoryPath = Paths.get(temporaryDirectoryPath.toString(), "data/");
-        temporaryDirectoryPathString = temporaryDirectoryPath.toString();
-        System.out.println("created " + masterDirectoryPath + "\n" + dataDirectoryPath);
+        System.out.printf("New temporary directory here: %s%n", temporaryDirectoryPath);
+    }
 
+    private void copyTestResourceDirectoryIntoTemporaryDirectory(String testName) throws IOException {
+
+        File srcDir = new File(Paths.get(testResourcePath, testName).toString());
+        File destDir = new File(temporaryDirectoryPath.toString());
+        FileUtils.copyDirectory(srcDir, destDir);
+    }
+
+    public void removeTestDirectories() throws IOException {
+        deleteTemporaryDirectoryRecursively();
+    }
+
+    private void deleteTemporaryDirectoryRecursively() throws IOException {
+        File directory = new File(temporaryDirectoryPath.toString());
+        org.apache.commons.io.FileUtils.deleteDirectory(directory);
     }
 
     public MasterDataDirectoryPaths getMasterDataDirectoryPaths() throws IOException {
         if (masterDataDirectoryPaths == null) {
+            Path masterDirectoryPath = getPathFromDirectoryPathAndSubdirectoryString(temporaryDirectoryPath, masterSubdirectoryName);
+            Path dataDirectoryPath = getPathFromDirectoryPathAndSubdirectoryString(temporaryDirectoryPath, dataSubdirectoryName);
             masterDataDirectoryPaths = new MasterDataDirectoryPaths(masterDirectoryPath, dataDirectoryPath);
         }
         return masterDataDirectoryPaths;
     }
 
-
-
-    public void removeTestDirectories() throws IOException {
-        org.apache.commons.io.FileUtils.deleteDirectory(new File(temporaryDirectoryPathString));
-        System.out.println("deleted " + temporaryDirectoryPathString);
+    private Path getPathFromDirectoryPathAndSubdirectoryString(Path directory, String subdirectoryString) {
+        return Paths.get(directory.toString(), subdirectoryString);
     }
+
+
 }

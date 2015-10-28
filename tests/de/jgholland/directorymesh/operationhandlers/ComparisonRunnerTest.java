@@ -1,14 +1,11 @@
 package de.jgholland.directorymesh.operationhandlers;
 
-import de.jgholland.directorymesh.operations.FileOperation;
 import de.jgholland.directorymesh.operations.ReportConflict;
-import de.jgholland.directorymesh.utilities.FileUtilities;
-import de.jgholland.directorymesh.utilities.MasterDataDirectoryPaths;
 import de.jgholland.directorymesh.testutilities.TestDirectoryEnvironment;
+import de.jgholland.directorymesh.utilities.MasterDataDirectoryPaths;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.*;
 import static org.junit.Assert.*;
 
 /**
@@ -17,14 +14,12 @@ import static org.junit.Assert.*;
 public class ComparisonRunnerTest {
     TestDirectoryEnvironment testDirectoryEnvironment;
     MasterDataDirectoryPaths masterDataDirectoryPaths;
-    FileUtilities fileUtilities;
     ComparisonRunner comparisonRunner;
 
     @Before
     public void setUp() throws Exception {
-        testDirectoryEnvironment = new TestDirectoryEnvironment();
+        testDirectoryEnvironment = new TestDirectoryEnvironment("generalTest");
         masterDataDirectoryPaths = testDirectoryEnvironment.getMasterDataDirectoryPaths();
-        fileUtilities = new FileUtilities(masterDataDirectoryPaths);
         comparisonRunner = new ComparisonRunner(masterDataDirectoryPaths);
     }
 
@@ -35,36 +30,18 @@ public class ComparisonRunnerTest {
 
     @Test
     public void testPickOperationWithConflictingFiles() throws Exception {
-        String regularFileInRoot = "regularFile";
-        fileUtilities.touchFilesInMasterAndData(regularFileInRoot);
-        assertTrue(comparisonRunner.pickOperation(regularFileInRoot) instanceof ReportConflict);
-
-        String regularFileInDirectory = "dir/regularFile";
-        fileUtilities.touchFilesInMasterAndData(regularFileInDirectory);
-        assertTrue(comparisonRunner.pickOperation(regularFileInDirectory) instanceof ReportConflict);
-
-        assertTrue(comparisonRunner.pickOperation("dir/") instanceof ReportConflict);
-
+        assertTrue(comparisonRunner.pickOperation("conflictingFile") instanceof ReportConflict);
+        assertTrue(comparisonRunner.pickOperation("dir0/conflictingFile") instanceof ReportConflict);
     }
 
     @Test
     public void testPickOperationWithConflictingDirectoryAndNormalFiles() throws Exception {
-        String filename = "dirOrFile";
-        fileUtilities.touchFileInMaster(filename);
-        fileUtilities.createDirectoryInMaster(filename);
-        assertTrue(comparisonRunner.pickOperation(filename) instanceof ReportConflict);
+        assertTrue(comparisonRunner.pickOperation("dirOrFile") instanceof ReportConflict);
     }
 
     @Test
     public void testPickOperationWithConflictingLinkAndNormalFiles() throws Exception {
-        String regularFileInRoot = "filename";
-        String secondFileInRoot = "anotherFilename";
-        fileUtilities.touchFileInMaster(regularFileInRoot);
-        fileUtilities.touchWithLink(
-                masterDataDirectoryPaths.pathInDataDirectory(regularFileInRoot),
-                masterDataDirectoryPaths.pathInDataDirectory(secondFileInRoot));
-        assertTrue(comparisonRunner.pickOperation(regularFileInRoot) instanceof ReportConflict);
-
+        assertTrue(comparisonRunner.pickOperation("fileLinkedWithinTree") instanceof ReportConflict);
     }
 
 
