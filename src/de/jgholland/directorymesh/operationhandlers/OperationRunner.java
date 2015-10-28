@@ -8,6 +8,7 @@ import de.jgholland.directorymesh.operations.FileOperation;
 public class OperationRunner {
     boolean quiet;
     boolean dryRun;
+
     public OperationRunner(boolean quiet, boolean dryRun) {
         this.quiet = quiet;
         this.dryRun = dryRun;
