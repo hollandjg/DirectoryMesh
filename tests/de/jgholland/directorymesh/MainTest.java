@@ -15,7 +15,7 @@ public class MainTest {
 
     @org.junit.Before
     public void setUp() throws Exception {
-        testDirectoryEnvironment = new TestDirectoryEnvironment("testGeneral");
+        testDirectoryEnvironment = new TestDirectoryEnvironment("generalTest");
         masterDataDirectoryPaths = testDirectoryEnvironment.getMasterDataDirectoryPaths();
 
     }

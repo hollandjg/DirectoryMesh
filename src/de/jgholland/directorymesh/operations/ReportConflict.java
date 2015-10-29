@@ -7,7 +7,7 @@ import java.nio.file.Path;
 /**
  * Created by john on 2015-10-26.
  */
-public class ReportConflict implements FileOperation {
+public class ReportConflict extends NullOperation {
     Path masterPath;
     Path dataPath;
     String message;
@@ -27,8 +27,4 @@ public class ReportConflict implements FileOperation {
         System.out.printf("%s: [master] %s [data] %s%n", message, masterPath, dataPath);
     }
 
-    @Override
-    public void runOperation() {
-
-    }
 }

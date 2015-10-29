@@ -3,14 +3,14 @@ package de.jgholland.directorymesh.operations;
 /**
  * Created by john on 2015-10-26.
  */
-public class NullOperation implements FileOperation {
+public class MakeLinkForDirectory extends MakeLink {
     @Override
     public void reportOperation() {
 
     }
 
     @Override
-    public final void runOperation() {
-        // Do nothing.
+    public void runOperation() {
+
     }
 }

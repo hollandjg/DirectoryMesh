@@ -22,13 +22,13 @@ public class ComparisonRunner {
         this.masterDataDirectoryPaths = masterDataDirectoryPaths;
     }
 
-    public FileOperation pickOperation(String relativePathWithinDataDirectory) throws Exception {
-        return pickOperation(Paths.get(relativePathWithinDataDirectory));
+    public FileOperation pickOperation(String relativePathWithinDirectory) throws Exception {
+        return pickOperation(Paths.get(relativePathWithinDirectory));
     }
 
-    public FileOperation pickOperation(Path relativePathWithinDataDirectory) throws Exception {
+    public FileOperation pickOperation(Path relativePathWithinDirectory) throws Exception {
 
-        FilePair filePair = new FilePair(relativePathWithinDataDirectory, masterDataDirectoryPaths);
+        FilePair filePair = new FilePair(relativePathWithinDirectory, masterDataDirectoryPaths);
 
         if (filePair.bothFilesAreReal()) {
             return new ReportConflict("Both files are real (not symlinks)", filePair);
