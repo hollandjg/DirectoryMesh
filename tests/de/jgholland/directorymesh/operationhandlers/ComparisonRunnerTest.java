@@ -25,7 +25,8 @@ public class ComparisonRunnerTest {
         masterDataDirectoryPaths = testDirectoryEnvironment.getMasterDataDirectoryPaths();
         comparisonRunner = new ComparisonRunner(masterDataDirectoryPaths);
 
-        // Add some links which can't be stored in the version control system because they are broken
+        // Add some links which can't be stored in the version control system because they are broken.
+        // If they are missing during the compile, they cause the software to crash.
         Files.createSymbolicLink(
                 masterDataDirectoryPaths.pathInMasterDirectory("MasterBackLinkDataMissing"),
                 masterDataDirectoryPaths.pathInDataDirectory("MasterBackLinkDataMissing") // File should not exist.
