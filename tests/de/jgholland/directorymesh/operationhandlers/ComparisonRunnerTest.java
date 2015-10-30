@@ -35,7 +35,7 @@ public class ComparisonRunnerTest {
         );
         Files.createSymbolicLink(
                 masterDataDirectoryPaths.pathInMasterDirectory("dirMasterBackLinkDataMissing"),
-                masterDataDirectoryPaths.pathInDataDirectory("MasterBackLinkDataMissing") // Directory should not exist.
+                masterDataDirectoryPaths.pathInDataDirectory("dirMasterBackLinkDataMissing") // Directory should not exist.
         );
 
     }
