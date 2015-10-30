@@ -25,8 +25,10 @@ public class ComparisonRunnerTest {
         masterDataDirectoryPaths = testDirectoryEnvironment.getMasterDataDirectoryPaths();
         comparisonRunner = new ComparisonRunner(masterDataDirectoryPaths);
 
-        // Add some links which can't be stored in the version control system because they are broken.
-        // If they are missing during the compile, they cause the software to crash.
+        /*
+        Add some links which can't be stored in the version control system because they are broken.
+        If they are missing during the compile, they cause the java compiler to crash.
+        */
         Files.createSymbolicLink(
                 masterDataDirectoryPaths.pathInMasterDirectory("MasterBackLinkDataMissing"),
                 masterDataDirectoryPaths.pathInDataDirectory("MasterBackLinkDataMissing") // File should not exist.
@@ -60,7 +62,8 @@ public class ComparisonRunnerTest {
     }
 
     void expectRemoveExistingLink(String filename) throws Exception {
-        assertTrue(comparisonRunner.pickOperation(filename) instanceof RemoveExistingLink);
+        FileOperation operation = comparisonRunner.pickOperation(filename);
+        assertTrue(operation instanceof RemoveExistingLink);
     }
 
     void expectReplaceExistingLink(String filename) throws Exception {
@@ -68,7 +71,8 @@ public class ComparisonRunnerTest {
     }
 
     void expectReportConflict(String filename) throws Exception {
-        assertTrue(comparisonRunner.pickOperation(filename) instanceof ReportConflict);
+        FileOperation operation = comparisonRunner.pickOperation(filename);
+        assertTrue(operation instanceof ReportConflict);
     }
 
     void expectReportDataFileMissing(String filename) throws Exception {
