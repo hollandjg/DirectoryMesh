@@ -13,7 +13,7 @@ public class Main {
     static String dryRunOptionName = "dryRun";
     static String quietOptionName = "quiet";
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         declareOptions();
         parseCommandLineArguments(args, optionDeclarations);
         initialiseDirectoryMeshObjectWithOptions();
@@ -50,7 +50,7 @@ public class Main {
     }
 
 
-    private static void runDirectoryMesh() {
+    private static void runDirectoryMesh() throws Exception {
         directoryMesh.runDirectoryMesh();
     }
 }
