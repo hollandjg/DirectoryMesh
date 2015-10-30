@@ -14,6 +14,7 @@ public class MasterDataDirectoryPaths {
     Path dataDirectoryPath;
 
     public MasterDataDirectoryPaths(Path masterDirectoryPath, Path dataDirectoryPath) {
+
         this.masterDirectoryPath = masterDirectoryPath;
         this.dataDirectoryPath = dataDirectoryPath;
         masterDirectoryPathString = masterDirectoryPath.toString();
@@ -21,26 +22,32 @@ public class MasterDataDirectoryPaths {
     }
 
     public MasterDataDirectoryPaths(String masterDirectoryPathString, String dataDirectoryPathString) {
+
         this(Paths.get(masterDirectoryPathString), Paths.get(dataDirectoryPathString));
     }
 
     public Path pathInDirectory(Path directory, Path path) {
+
         return Paths.get(directory.toString(), path.toString());
     }
 
     public Path pathInMasterDirectory(Path path) {
+
         return pathInDirectory(masterDirectoryPath, path);
     }
 
     public Path pathInMasterDirectory(String path) {
+
         return pathInMasterDirectory(Paths.get(path));
     }
 
     public Path pathInDataDirectory(Path path) {
+
         return pathInDirectory(dataDirectoryPath, path);
     }
 
     public Path pathInDataDirectory(String path) {
+
         return pathInDataDirectory(Paths.get(path));
     }
 
