@@ -15,6 +15,7 @@ public abstract class OperationOnFilePair implements FileOperation {
     String message;
 
     public OperationOnFilePair(String message, FilePair filePair) {
+
         this.filePair = filePair;
         this.masterPath = filePair.masterPath;
         this.dataPath = filePair.dataPath;
@@ -23,6 +24,7 @@ public abstract class OperationOnFilePair implements FileOperation {
 
     @Override
     public void reportOperation() {
+
         System.out.printf("%s: %s", filePair.getRelativePathWithinDirectories(), message);
     }
 

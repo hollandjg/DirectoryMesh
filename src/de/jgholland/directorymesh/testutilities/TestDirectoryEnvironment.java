@@ -26,7 +26,7 @@ public class TestDirectoryEnvironment {
     public TestDirectoryEnvironment(String testName) throws IOException {
 
         this.testName = testName;
-        
+
         createNewTemporaryDirectory();
         copyTestResourceDirectoryIntoTemporaryDirectory();
         initialiseMasterDataDirectoryPaths();
