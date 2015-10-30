@@ -37,7 +37,6 @@ public class ComparisonRunnerTest {
                 masterDataDirectoryPaths.pathInMasterDirectory("dirMasterBackLinkDataMissing"),
                 masterDataDirectoryPaths.pathInDataDirectory("dirMasterBackLinkDataMissing") // Directory should not exist.
         );
-
     }
 
     @After
@@ -93,6 +92,7 @@ public class ComparisonRunnerTest {
         expectMakeLink("MasterMissingDataNormal");
         expectMakeLink("MasterMissingDataOtherLink");
         expectReportDataFileMissing("MasterMissingDataMissing");
+        expectReportConflict("dataLinkToMaster");
     }
 
     @Test
@@ -115,6 +115,7 @@ public class ComparisonRunnerTest {
     public void testPickOperation_specialRules() throws Exception {
         expectReportConflict("dirMasterFileData");
         expectReportConflict("dirDataFileMaster");
+
     }
 
 }

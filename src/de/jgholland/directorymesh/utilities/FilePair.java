@@ -127,10 +127,8 @@ public class FilePair {
         return data.isSymbolicLink();
     }
 
-    public boolean dataTargetIsDirectory() throws Exception {
-        Path symlinkTarget = Files.readSymbolicLink(dataPath);
-        Path dataTarget = dataPath.resolveSibling(symlinkTarget).normalize();
-        BasicFileAttributes basicFileAttributesOfTarget = getBasicFileAttributesOfEndFile(dataTarget);
+    public boolean dataIsDirectoryOrLinkToDirectory() throws Exception {
+        BasicFileAttributes basicFileAttributesOfTarget = getBasicFileAttributesOfEndFile(dataPath);
         return basicFileAttributesOfTarget.isDirectory();
     }
 }

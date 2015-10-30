@@ -6,7 +6,6 @@ import de.jgholland.directorymesh.utilities.MasterDataDirectoryPaths;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Formatter;
 
 /**
  * Created by john on 2015-10-26.
@@ -41,9 +40,8 @@ public class ComparisonRunner {
             return new NullOperation("File only exists on master: nothing to do.", filePair);
         }
 
-        // Cases where links are needed
         if (filePair.dataExistsButMasterDoesnt()) {
-            if (filePair.dataIsDirectory() || (filePair.dataIsSymbolicLink()) && filePair.dataTargetIsDirectory()) {
+            if (filePair.dataIsDirectoryOrLinkToDirectory()) {
                 return new MakeLinkForDirectory("Linking these directories together", filePair);
             } else {
                 return new MakeLink("Linking these files together", filePair);
@@ -58,23 +56,15 @@ public class ComparisonRunner {
             return new ReportConflict("One file is a directory and the other is not", filePair);
         }
 
-        // Cases where nothing needs to happen
         if (filePair.masterIsABackLinkToTheCorrectDataFile()) {
             return new NullOperation("The backlink is correct", filePair);
         }
 
-        // Cases where there's a conflict
         if (filePair.bothExistAndMasterIsNotABackLink()) {
             return new ReportConflict("Both master and data exist, but master isn't a link back to data", filePair);
         }
 
-
-
-
-        Formatter exceptionStringFormatter = new Formatter();
-        String exceptionString = exceptionStringFormatter.format("No logical outcome was found for the file named %s", relativePathWithinDirectory).toString();
-        throw new UnsupportedOperationException();
-
-
+        return new ReportConflict("Something strange with these files", filePair);
     }
+
 }
