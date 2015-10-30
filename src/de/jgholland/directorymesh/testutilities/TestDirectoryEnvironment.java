@@ -1,6 +1,7 @@
 package de.jgholland.directorymesh.testutilities;
 
 import de.jgholland.directorymesh.utilities.MasterDataDirectoryPaths;
+import org.apache.commons.io.FileUtils;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -23,18 +24,22 @@ public class TestDirectoryEnvironment {
     String testName;
 
     public TestDirectoryEnvironment(String testName) throws IOException {
+
         this.testName = testName;
+        
         createNewTemporaryDirectory();
         copyTestResourceDirectoryIntoTemporaryDirectory();
         initialiseMasterDataDirectoryPaths();
     }
 
     private void createNewTemporaryDirectory() throws IOException {
+
         temporaryDirectoryPath = Files.createTempDirectory("directoryMesh");
         System.out.printf("New temporary directory here: %s%n", temporaryDirectoryPath);
     }
 
     private void copyTestResourceDirectoryIntoTemporaryDirectory() throws IOException {
+
         String srcDir = Paths.get(testResourcePath, testName).toString();
         String destDir = temporaryDirectoryPath.toString();
         copyDirectoriesPreservingLinks(srcDir, destDir);
@@ -42,6 +47,7 @@ public class TestDirectoryEnvironment {
     }
 
     private void copyDirectoriesPreservingLinks(String srcDir, String destDir) {
+
         String rsyncCommand = "rsync -a " + srcDir + " " + destDir;
         try {
             Process rsyncProcess = Runtime.getRuntime().exec(rsyncCommand);
@@ -61,15 +67,18 @@ public class TestDirectoryEnvironment {
     }
 
     public void removeTestDirectories() throws IOException {
+
         deleteTemporaryDirectoryRecursively();
     }
 
     private void deleteTemporaryDirectoryRecursively() throws IOException {
+
         File directory = new File(temporaryDirectoryPath.toString());
-        org.apache.commons.io.FileUtils.deleteDirectory(directory);
+        FileUtils.deleteDirectory(directory);
     }
 
     public MasterDataDirectoryPaths getMasterDataDirectoryPaths() throws IOException {
+
         if (masterDataDirectoryPaths == null) {
             initialiseMasterDataDirectoryPaths();
         }
@@ -77,12 +86,20 @@ public class TestDirectoryEnvironment {
     }
 
     private void initialiseMasterDataDirectoryPaths() {
-        Path masterDirectoryPath = getPathFromDirectoryPathAndSubdirectoryString(temporaryDirectoryPath, testName + "/" + masterSubdirectoryName);
-        Path dataDirectoryPath = getPathFromDirectoryPathAndSubdirectoryString(temporaryDirectoryPath, testName + "/" + dataSubdirectoryName);
+
+        Path masterDirectoryPath = getPathFromDirectoryPathAndSubdirectoryString(
+                temporaryDirectoryPath,
+                testName + "/" + masterSubdirectoryName
+        );
+        Path dataDirectoryPath = getPathFromDirectoryPathAndSubdirectoryString(
+                temporaryDirectoryPath,
+                testName + "/" + dataSubdirectoryName
+        );
         masterDataDirectoryPaths = new MasterDataDirectoryPaths(masterDirectoryPath, dataDirectoryPath);
     }
 
     private Path getPathFromDirectoryPathAndSubdirectoryString(Path directory, String subdirectoryString) {
+
         return Paths.get(directory.toString(), subdirectoryString);
     }
 
