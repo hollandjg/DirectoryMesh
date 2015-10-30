@@ -19,18 +19,23 @@ public class FilePair {
     boolean dataExists;
 
     public FilePair(Path relativePathInDirectory, MasterDataDirectoryPaths masterDataDirectoryPaths) throws Exception {
+
         this.relativePathInDirectory = relativePathInDirectory;
         this.masterDataDirectoryPaths = masterDataDirectoryPaths;
         initialisePathVariables(relativePathInDirectory, masterDataDirectoryPaths);
         getFileAttributes();
     }
 
-    private void initialisePathVariables(Path relativePathInDirectory, MasterDataDirectoryPaths masterDataDirectoryPaths) {
+    private void initialisePathVariables(
+            Path relativePathInDirectory,
+            MasterDataDirectoryPaths masterDataDirectoryPaths) {
+
         masterPath = masterDataDirectoryPaths.pathInMasterDirectory(relativePathInDirectory);
         dataPath = masterDataDirectoryPaths.pathInDataDirectory(relativePathInDirectory);
     }
 
     private void getFileAttributes() throws Exception {
+
         master = getBasicFileAttributes(masterPath);
         masterExists = fileExistsOrIsLink(master);
         data = getBasicFileAttributes(dataPath);
@@ -38,13 +43,17 @@ public class FilePair {
     }
 
     private BasicFileAttributes getBasicFileAttributes(Path path) {
-        return getBasicFileAttributes(path, new LinkOption[] {LinkOption.NOFOLLOW_LINKS});
+
+        return getBasicFileAttributes(path, new LinkOption[]{LinkOption.NOFOLLOW_LINKS});
     }
+
     private BasicFileAttributes getBasicFileAttributesOfEndFile(Path path) {
-        return getBasicFileAttributes(path, new LinkOption[] {}); // Follows links
+
+        return getBasicFileAttributes(path, new LinkOption[]{}); // Follows links
     }
 
     private BasicFileAttributes getBasicFileAttributes(Path path, LinkOption[] options) {
+
         BasicFileAttributes basicFileAttributes;
         try {
             basicFileAttributes = Files.readAttributes(
@@ -57,16 +66,18 @@ public class FilePair {
         return basicFileAttributes;
     }
 
-
     public boolean fileExistsOrIsLink(BasicFileAttributes basicFileAttributes) {
+
         return basicFileAttributes != null;
     }
 
     public boolean masterIsSymbolicAndPointsToData() throws Exception {
+
         return master.isSymbolicLink() && masterPointsToData();
     }
 
     public boolean bothExistAndMasterIsNotABackLink() throws Exception {
+
         return masterExists && dataExists && !masterIsSymbolicAndPointsToData();
     }
 
@@ -79,55 +90,48 @@ public class FilePair {
         return pathsMatch;
     }
 
-    public boolean masterIsSymbolicAndPointsElsewhere() throws Exception {
-        return master.isSymbolicLink() && !masterPointsToData();
-    }
-
     public String getRelativePathWithinDirectories() {
+
         return this.relativePathInDirectory.toString();
     }
 
     public boolean neitherFileExists() {
+
         return !masterExists && !dataExists;
     }
 
     public boolean masterExistsButDataDoesnt() {
+
         return masterExists && !dataExists;
     }
 
     public boolean dataExistsButMasterDoesnt() {
+
         return !masterExists && dataExists;
     }
 
-    public boolean bothFilesAreNotSymlinks() {
-        return !master.isSymbolicLink() && !data.isSymbolicLink();
-    }
-
     public boolean masterIsABackLinkToAMissingFile() throws Exception {
+
         return (!dataExists && masterIsSymbolicAndPointsToData());
     }
 
     public boolean masterIsABackLinkToTheCorrectDataFile() throws Exception {
+
         return (dataExists && masterIsSymbolicAndPointsToData());
     }
 
     public boolean oneIsDirectoryAndOneIsRegular() {
+
         return ((master.isRegularFile() && data.isDirectory()) || (master.isDirectory() && data.isRegularFile()));
     }
 
     public boolean bothAreDirectories() {
+
         return data.isDirectory() && master.isDirectory();
     }
 
-    public boolean dataIsDirectory() {
-        return data.isDirectory();
-    }
-
-    public boolean dataIsSymbolicLink() {
-        return data.isSymbolicLink();
-    }
-
     public boolean dataIsDirectoryOrLinkToDirectory() throws Exception {
+
         BasicFileAttributes basicFileAttributesOfTarget = getBasicFileAttributesOfEndFile(dataPath);
         return basicFileAttributesOfTarget.isDirectory();
     }

@@ -17,7 +17,7 @@ public abstract class OperationOnFilePair implements FileOperation {
     public OperationOnFilePair(String message, FilePair filePair) {
         this.filePair = filePair;
         this.masterPath = filePair.masterPath;
-        this.dataPath =  filePair.dataPath;
+        this.dataPath = filePair.dataPath;
         this.message = message;
     }
 

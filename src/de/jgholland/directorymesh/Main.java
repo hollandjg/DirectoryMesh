@@ -8,6 +8,10 @@ public class Main {
     static Options optionDeclarations;
     static CommandLine commandLine;
     static DirectoryMesh directoryMesh;
+    static String masterPathOptionName = "masterPath";
+    static String dataPathOptionName = "dataPath";
+    static String dryRunOptionName = "dryRun";
+    static String quietOptionName = "quiet";
 
     public static void main(String[] args) {
         declareOptions();
@@ -15,11 +19,6 @@ public class Main {
         initialiseDirectoryMeshObjectWithOptions();
         runDirectoryMesh();
     }
-
-    static String masterPathOptionName = "masterPath";
-    static String dataPathOptionName = "dataPath";
-    static String dryRunOptionName = "dryRun";
-    static String quietOptionName = "quiet";
 
     private static void declareOptions() {
         optionDeclarations = new Options();
@@ -46,7 +45,7 @@ public class Main {
         String dataPath = commandLine.getOptionValue(dataPathOptionName);
         boolean quiet = commandLine.hasOption(quietOptionName);
         boolean dryRun = commandLine.hasOption(dryRunOptionName);
-        System.out.println("master: " + masterPath + " data: " + dataPath + " " + (quiet?"quiet ":"") + (dryRun?"dry run ":"") );
+        System.out.println("master: " + masterPath + " data: " + dataPath + " " + (quiet ? "quiet " : "") + (dryRun ? "dry run " : ""));
         directoryMesh = new DirectoryMesh(masterPath, dataPath, quiet, dryRun);
     }
 

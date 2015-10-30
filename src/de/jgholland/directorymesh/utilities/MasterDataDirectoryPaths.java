@@ -1,6 +1,5 @@
 package de.jgholland.directorymesh.utilities;
 
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -9,10 +8,10 @@ import java.nio.file.Paths;
  */
 public class MasterDataDirectoryPaths {
 
-    Path masterDirectoryPath;
-    Path dataDirectoryPath;
     public String masterDirectoryPathString;
     public String dataDirectoryPathString;
+    Path masterDirectoryPath;
+    Path dataDirectoryPath;
 
     public MasterDataDirectoryPaths(Path masterDirectoryPath, Path dataDirectoryPath) {
         this.masterDirectoryPath = masterDirectoryPath;
@@ -44,7 +43,6 @@ public class MasterDataDirectoryPaths {
     public Path pathInDataDirectory(String path) {
         return pathInDataDirectory(Paths.get(path));
     }
-
 
 
 }
