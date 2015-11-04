@@ -8,8 +8,13 @@ import de.jgholland.directorymesh.utilities.FilePair;
 
 public class ReportDataFileMissing extends NullOperation {
 
-    public ReportDataFileMissing(String message, FilePair filePair) {
-        super(message, filePair);
+    public ReportDataFileMissing(FilePair filePair) {
+        super(filePair);
+    }
+
+    @Override
+    public void reportOperation() {
+        System.out.printf("%s is missing.%n", filePair.dataPath);
     }
 
 }

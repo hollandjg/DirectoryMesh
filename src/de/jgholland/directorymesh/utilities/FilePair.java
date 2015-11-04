@@ -135,4 +135,12 @@ public class FilePair {
         BasicFileAttributes basicFileAttributesOfTarget = getBasicFileAttributesOfEndFile(dataPath);
         return basicFileAttributesOfTarget.isDirectory();
     }
+
+    public String abbreviatedMasterPath() {
+        return "[master]/" + relativePathInDirectory;
+    }
+
+    public String abbreviatedDataPath() {
+        return "[data]/" + relativePathInDirectory;
+    }
 }

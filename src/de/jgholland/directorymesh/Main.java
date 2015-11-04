@@ -39,7 +39,7 @@ public class Main {
         }
     }
 
-    private static void initialiseDirectoryMeshObjectWithOptions() {
+    private static void initialiseDirectoryMeshObjectWithOptions() throws Exception {
 
         String masterPath = commandLine.getOptionValue(masterPathOptionName);
         String dataPath = commandLine.getOptionValue(dataPathOptionName);
@@ -47,6 +47,7 @@ public class Main {
         boolean dryRun = commandLine.hasOption(dryRunOptionName);
         System.out.println("master: " + masterPath + " data: " + dataPath + " " + (quiet ? "quiet " : "") + (dryRun ? "dry run " : ""));
         directoryMesh = new DirectoryMesh(masterPath, dataPath, quiet, dryRun);
+        runDirectoryMesh();
     }
 
 

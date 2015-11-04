@@ -42,6 +42,8 @@ public class ComparisonRunnerTest extends MeshGeneralTestClass {
 
     @Test
     public void testPickOperation_standardRulesForFiles() throws Exception {
+        expectNullOperation(".DS_Store");
+        expectNullOperation(".localized");
         expectReportConflict("MasterNormalDataNormal");
         expectReportConflict("MasterNormalDataOtherLink");
         expectNullOperation("MasterNormalDataMissing");

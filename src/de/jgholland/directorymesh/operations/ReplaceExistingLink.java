@@ -7,8 +7,8 @@ import de.jgholland.directorymesh.utilities.FilePair;
  */
 public class ReplaceExistingLink extends MakeLink {
 
-    public ReplaceExistingLink(String message, FilePair filePair) {
-        super(message, filePair);
+    public ReplaceExistingLink(FilePair filePair) {
+        super(filePair);
     }
 
     @Override

@@ -13,25 +13,26 @@ public abstract class OperationOnFilePair implements FileOperation {
     Path masterPath;
     Path dataPath;
     FilePair filePair;
-    String message;
     FileVisitResult fileVisitResult;
 
-    public OperationOnFilePair(String message, FilePair filePair, FileVisitResult fileVisitResult) {
+    public OperationOnFilePair(FilePair filePair) {
         this.filePair = filePair;
         this.masterPath = filePair.masterPath;
         this.dataPath = filePair.dataPath;
-        this.message = message;
-        this.fileVisitResult = fileVisitResult;
+        allowFileVisitorToVisitSubdirectories();
     }
 
-    @Override
-    public void reportOperation() {
-        System.out.printf("%s: %s%n", message, filePair.getRelativePathWithinDirectories());
+    private void allowFileVisitorToVisitSubdirectories() {
+        this.fileVisitResult = FileVisitResult.CONTINUE;
+    }
+
+    protected void stopFileVisitorFromVisitingSubdirectories() {
+        this.fileVisitResult = FileVisitResult.SKIP_SUBTREE;
     }
 
     @Override
     public FileVisitResult getFileVisitResult() {
-        return fileVisitResult;
+        return this.fileVisitResult;
     }
 
 }

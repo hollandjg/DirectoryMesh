@@ -13,8 +13,13 @@ public class FileCreationUtility {
     }
 
     public static void reportNewSymink(Path regularLocation, Path softLinkLocation) {
-        fileCreationReporter("Created symbolic link " + regularLocation.toString() + " <- " + softLinkLocation.toString());
+        reportNewSymink(regularLocation.toString(), softLinkLocation.toString());
     }
+
+    public static void reportNewSymink(String regularLocation, String softLinkLocation) {
+        fileCreationReporter("Created symbolic link " + regularLocation + " <- " + softLinkLocation);
+    }
+
 
     public static void createSymlink(Path realFileLocation, Path softLinkLocation) throws Exception {
         Files.createSymbolicLink(softLinkLocation, realFileLocation);

@@ -37,6 +37,7 @@ public class DirectoryMesh {
 
 
     private void buildListOfOperations() throws Exception {
+        
         Files.walkFileTree(
                 dataPath,
                 new SimpleFileVisitor<Path>() {
@@ -55,14 +56,12 @@ public class DirectoryMesh {
                     private FileVisitResult getFileVisitResult(Path filePath) throws IOException {
                         FileOperation individualOperation;
                         Path relativeDataPath = dataPath.relativize(filePath);
-
-                        System.out.printf("Testing %s%n", relativeDataPath);
-
                         try {
                             individualOperation = comparisonRunner.pickOperation(relativeDataPath);
                         } catch (Exception e) {
                             throw new IOException(e.getMessage());
                         }
+                        System.out.printf("%s: %s%n", filePath, individualOperation);
                         allTheOperationsToPerform.add(individualOperation);
                         return individualOperation.getFileVisitResult();
                     }
