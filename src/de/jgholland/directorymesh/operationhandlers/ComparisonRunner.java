@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
  */
 public class ComparisonRunner {
     MasterDataDirectoryPaths masterDataDirectoryPaths;
-    Pattern filesToIgnore = Pattern.compile("\\.DS_Store|\\.localized");
+    Pattern filesToIgnore = Pattern.compile("\\.DS_Store|\\.localized|\\.iTunes Preferences.plist");
 
     public ComparisonRunner(String masterPath, String dataPath) {
         this(new MasterDataDirectoryPaths(masterPath, dataPath));
@@ -24,11 +24,11 @@ public class ComparisonRunner {
         this.masterDataDirectoryPaths = masterDataDirectoryPaths;
     }
 
-    public FileOperation pickOperation(String relativePathWithinDirectory) throws Exception {
+    public FileOperation pickOperation(String relativePathWithinDirectory) {
         return pickOperation(Paths.get(relativePathWithinDirectory));
     }
 
-    public FileOperation pickOperation(Path relativePathWithinDirectory) throws Exception {
+    public FileOperation pickOperation(Path relativePathWithinDirectory) {
 
         FilePair filePair = new FilePair(relativePathWithinDirectory, masterDataDirectoryPaths);
 
@@ -64,7 +64,11 @@ public class ComparisonRunner {
         }
 
         if (filePair.masterIsABackLinkToTheCorrectDataFile()) {
-            return new NullOperation(filePair);
+            if (filePair.dataIsDirectoryOrLinkToDirectory()) {
+                return new NullOperationCorrectBackLinkForDirectory(filePair);
+            } else {
+                return new NullOperationCorrectBackLink(filePair);
+            }
         }
 
         if (filePair.bothExistAndMasterIsNotABackLink()) {

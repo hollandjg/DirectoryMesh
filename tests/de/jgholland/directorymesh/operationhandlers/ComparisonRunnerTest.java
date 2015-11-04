@@ -2,7 +2,7 @@ package de.jgholland.directorymesh.operationhandlers;
 
 import de.jgholland.directorymesh.operations.*;
 import org.junit.Test;
-
+import de.jgholland.directorymesh.utilities.TestUtilities;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -11,15 +11,19 @@ import static org.junit.Assert.assertTrue;
 public class ComparisonRunnerTest extends MeshGeneralTestClass {
 
     void expectMakeLink(String filename) throws Exception {
-        assertTrue(comparisonRunner.pickOperation(filename) instanceof MakeLink);
+        TestUtilities.expectMakeLink(comparisonRunner.pickOperation(filename));
     }
 
     void expectMakeLinkForDirectory(String filename) throws Exception {
-        assertTrue(comparisonRunner.pickOperation(filename) instanceof MakeLinkForDirectory);
+        TestUtilities.expectMakeLinkForDirectory(comparisonRunner.pickOperation(filename));
     }
 
     void expectNullOperation(String filename) throws Exception {
         assertTrue(comparisonRunner.pickOperation(filename) instanceof NullOperation);
+    }
+
+    void expectNullOperationIgnoreSubdirectories(String filename) throws Exception {
+        assertTrue(comparisonRunner.pickOperation(filename) instanceof NullOperationCorrectBackLinkForDirectory);
     }
 
     void expectRemoveExistingLink(String filename) throws Exception {
@@ -64,8 +68,8 @@ public class ComparisonRunnerTest extends MeshGeneralTestClass {
         expectNullOperation("dirMasterNormalDataNormal");
         expectReportConflict("dirMasterNormalDataOtherLink");
         expectNullOperation("dirMasterNormalDataMissing");
-        expectNullOperation("dirMasterBackLinkDataNormal");
-        expectNullOperation("dirMasterBackLinkDataOtherLink");
+        expectNullOperationIgnoreSubdirectories("dirMasterBackLinkDataNormal");
+        expectNullOperationIgnoreSubdirectories("dirMasterBackLinkDataOtherLink");
         expectRemoveExistingLink("dirMasterBackLinkDataMissing");
         expectReportConflict("dirMasterOtherLinkDataNormal");
         expectReportConflict("dirMasterOtherLinkDataOtherLink");

@@ -5,7 +5,7 @@ import org.junit.Test;
 /**
  * Created by john on 2015-10-30.
  */
-public class DirectoryMeshTest extends MeshGeneralTestClass {
+public class DirectoryMeshTestTestDirectory extends MeshGeneralTestClass {
 
     @Test
     public void testRunDirectoryMesh() throws Exception {
@@ -16,6 +16,6 @@ public class DirectoryMeshTest extends MeshGeneralTestClass {
                 masterDataDirectoryPaths.dataDirectoryPathString,
                 notQuiet,
                 dryRun);
-        directoryMesh.runDirectoryMesh();
+        directoryMesh.linkDataFilesIntoMaster();
     }
 }

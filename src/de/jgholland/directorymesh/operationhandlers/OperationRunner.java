@@ -15,9 +15,17 @@ public class OperationRunner {
     }
 
     public void processFileOperation(FileOperation operation) {
+        runOperationReport(operation);
+        actuallyRunTheOperation(operation);
+    }
+
+    void runOperationReport(FileOperation operation) {
         if (!quiet) {
             operation.reportOperation();
         }
+    }
+
+    void actuallyRunTheOperation(FileOperation operation) {
         if (!dryRun) {
             operation.runOperation();
         }

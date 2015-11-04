@@ -1,5 +1,6 @@
 package de.jgholland.directorymesh.utilities;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import java.nio.file.Path;
@@ -18,7 +19,7 @@ public class FilePair {
     boolean masterExists;
     boolean dataExists;
 
-    public FilePair(Path relativePathInDirectory, MasterDataDirectoryPaths masterDataDirectoryPaths) throws Exception {
+    public FilePair(Path relativePathInDirectory, MasterDataDirectoryPaths masterDataDirectoryPaths) {
 
         this.relativePathInDirectory = relativePathInDirectory;
         this.masterDataDirectoryPaths = masterDataDirectoryPaths;
@@ -34,12 +35,13 @@ public class FilePair {
         dataPath = masterDataDirectoryPaths.pathInDataDirectory(relativePathInDirectory);
     }
 
-    private void getFileAttributes() throws Exception {
+    private void getFileAttributes() {
 
+        data = getBasicFileAttributes(dataPath);
         master = getBasicFileAttributes(masterPath);
         masterExists = fileExistsOrIsLink(master);
-        data = getBasicFileAttributes(dataPath);
         dataExists = fileExistsOrIsLink(data);
+
     }
 
     private BasicFileAttributes getBasicFileAttributes(Path path) {
@@ -71,19 +73,23 @@ public class FilePair {
         return basicFileAttributes != null;
     }
 
-    public boolean masterIsSymbolicAndPointsToData() throws Exception {
+    public boolean masterIsSymbolicAndPointsToData() {
 
-        return master.isSymbolicLink() && masterPointsToData();
+        return masterExists && master.isSymbolicLink() && masterPointsToData();
     }
 
-    public boolean bothExistAndMasterIsNotABackLink() throws Exception {
+    public boolean bothExistAndMasterIsNotABackLink() {
 
         return masterExists && dataExists && !masterIsSymbolicAndPointsToData();
     }
 
-    public boolean masterPointsToData() throws Exception {
-
-        Path symlinkTarget = Files.readSymbolicLink(masterPath);
+    public boolean masterPointsToData() {
+        Path symlinkTarget;
+        try {
+            symlinkTarget = Files.readSymbolicLink(masterPath);
+        } catch (IOException e) {
+            return false;
+        }
         Path masterLinkTarget = masterPath.resolveSibling(symlinkTarget).normalize();
         Path normalizedDataPath = dataPath.normalize();
         boolean pathsMatch = normalizedDataPath.equals(masterLinkTarget);
@@ -110,12 +116,12 @@ public class FilePair {
         return !masterExists && dataExists;
     }
 
-    public boolean masterIsABackLinkToAMissingFile() throws Exception {
+    public boolean masterIsABackLinkToAMissingFile() {
 
         return (!dataExists && masterIsSymbolicAndPointsToData());
     }
 
-    public boolean masterIsABackLinkToTheCorrectDataFile() throws Exception {
+    public boolean masterIsABackLinkToTheCorrectDataFile() {
 
         return (dataExists && masterIsSymbolicAndPointsToData());
     }
@@ -130,7 +136,7 @@ public class FilePair {
         return data.isDirectory() && master.isDirectory();
     }
 
-    public boolean dataIsDirectoryOrLinkToDirectory() throws Exception {
+    public boolean dataIsDirectoryOrLinkToDirectory() {
 
         BasicFileAttributes basicFileAttributesOfTarget = getBasicFileAttributesOfEndFile(dataPath);
         return basicFileAttributesOfTarget.isDirectory();

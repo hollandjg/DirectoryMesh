@@ -5,17 +5,15 @@ import de.jgholland.directorymesh.operations.FileOperation;
 import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.util.ArrayList;
 
 /**
  * Created by john on 2015-10-26.
  */
 public class DirectoryMesh {
-    private final ComparisonRunner comparisonRunner;
-    private final OperationRunner operationRunner;
+    final ComparisonRunner comparisonRunner;
+    final OperationRunner operationRunner;
     Path masterPath;
     Path dataPath;
-    private ArrayList<FileOperation> allTheOperationsToPerform = new ArrayList<>();
 
     public DirectoryMesh(String masterPath, String dataPath, boolean quiet, boolean dryRun) {
         this.comparisonRunner = new ComparisonRunner(masterPath, dataPath);
@@ -24,50 +22,48 @@ public class DirectoryMesh {
         this.dataPath = Paths.get(dataPath);
     }
 
-    public void runDirectoryMesh() throws Exception {
-        buildListOfOperations();
-        runOperations();
+    public void linkDataFilesIntoMaster() {
+        fileTreeWalkerErrorWrapper(dataPath);
     }
 
-    private void runOperations() {
-        for (FileOperation individualOperation : allTheOperationsToPerform) {
-            operationRunner.processFileOperation(individualOperation);
+    public void pruneMasterDirectoryBackLinks() {
+        fileTreeWalkerErrorWrapper(masterPath);
+    }
+
+
+    private void fileTreeWalkerErrorWrapper(Path path) {
+            try {
+                walkTheFileTreeCarryingOutOperationsAtEachRelevantFile(path);
+            } catch (IOException e) {
+                System.out.printf("Directory walk failed: %s%n", e);
+            }
         }
-    }
 
 
-    private void buildListOfOperations() throws Exception {
-        
+    void walkTheFileTreeCarryingOutOperationsAtEachRelevantFile(Path pathToWalk) throws IOException {
+
         Files.walkFileTree(
-                dataPath,
+                pathToWalk,
                 new SimpleFileVisitor<Path>() {
 
                     @Override
-                    public FileVisitResult preVisitDirectory(Path filePath, BasicFileAttributes attrs) throws IOException {
+                    public FileVisitResult preVisitDirectory(Path filePath, BasicFileAttributes attrs) {
                         return getFileVisitResult(filePath);
                     }
 
                     @Override
-                    public FileVisitResult visitFile(Path filePath, BasicFileAttributes attrs) throws IOException {
+                    public FileVisitResult visitFile(Path filePath, BasicFileAttributes attrs) {
                         return getFileVisitResult(filePath);
 
                     }
 
-                    private FileVisitResult getFileVisitResult(Path filePath) throws IOException {
-                        FileOperation individualOperation;
-                        Path relativeDataPath = dataPath.relativize(filePath);
-                        try {
-                            individualOperation = comparisonRunner.pickOperation(relativeDataPath);
-                        } catch (Exception e) {
-                            throw new IOException(e.getMessage());
-                        }
-                        System.out.printf("%s: %s%n", filePath, individualOperation);
-                        allTheOperationsToPerform.add(individualOperation);
-                        return individualOperation.getFileVisitResult();
+                    private FileVisitResult getFileVisitResult(Path filePath) {
+                        Path relativeDataPath = pathToWalk.relativize(filePath);
+                        FileOperation individualOperation = comparisonRunner.pickOperation(relativeDataPath);
+                        operationRunner.processFileOperation(individualOperation);
+                        FileVisitResult fileVisitResult = individualOperation.getFileVisitResult();
+                        return fileVisitResult;
                     }
                 });
-
     }
-    
-
 }
