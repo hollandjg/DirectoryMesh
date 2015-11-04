@@ -20,4 +20,12 @@ public class MainTest extends MeshGeneralTestClass {
         de.jgholland.directorymesh.Main.main(new String[] {"-m", masterDataDirectoryPaths.masterDirectoryPathString, "-d", masterDataDirectoryPaths.dataDirectoryPathString, "-h", "-n"});
 
     }
+
+    @Test
+    public void testMainNoArgs() throws Exception {
+        setupGeneralTest();
+        de.jgholland.directorymesh.Main.main(new String[] {});
+
+    }
+
 }

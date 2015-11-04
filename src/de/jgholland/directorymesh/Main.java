@@ -58,8 +58,8 @@ public class Main {
     }
 
     private static void parseCommandLineArguments(String[] args, Options options) {
+        printHelpIfReqired(options);
         initialiseCommandLineParser(args, options);
-        printHelpAndExitIfReqired(options);
     }
 
     private static void initialiseCommandLineParser(String[] args, Options options) {
@@ -68,17 +68,16 @@ public class Main {
             commandLine = parser.parse(options, args);
         } catch (ParseException exp) {
             System.err.println("Parsing failed.  Reason: " + exp.getMessage());
+            System.exit(0);
         }
     }
 
-    private static void printHelpAndExitIfReqired(Options options) {
+    private static void printHelpIfReqired(Options options) {
         HelpFormatter formatter = new HelpFormatter();
         makeOptionsAppearInTheOrderInWhichTheyWereDeclared(formatter);
         boolean autoUsageOn = true;
         formatter.printHelp(ApplicationName, descriptionOfTheTool, options, contactDataForIssueReporting, autoUsageOn);
-        if (commandLine.hasOption(helpOptionName)) {
-            System.exit(1);
-        }
+
     }
 
     private static void makeOptionsAppearInTheOrderInWhichTheyWereDeclared(HelpFormatter formatter) {
