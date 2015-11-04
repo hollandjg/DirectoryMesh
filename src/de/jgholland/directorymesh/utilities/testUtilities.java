@@ -33,6 +33,10 @@ public class TestUtilities {
         assertTrue(operation instanceof ReportConflict);
     }
 
+    public static void expectReportConflictForDirectory(FileOperation operation) throws Exception {
+        assertTrue(operation instanceof ReportConflictForDirectory);
+    }
+
     public static void expectReportDataFileMissing(FileOperation operation) throws Exception {
         assertTrue(operation instanceof ReportDataFileMissing);
     }

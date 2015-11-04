@@ -1,6 +1,5 @@
 package de.jgholland.directorymesh.operationhandlers;
 
-import de.jgholland.directorymesh.operations.*;
 import de.jgholland.directorymesh.testutilities.TestDirectoryEnvironment;
 import de.jgholland.directorymesh.utilities.MasterDataDirectoryPaths;
 import de.jgholland.directorymesh.utilities.TestUtilities;
@@ -77,29 +76,27 @@ public class MeshGeneralTestClass {
     }
 
     void expectNullOperation(String filename) throws Exception {
-        assertTrue(comparisonRunner.pickOperation(filename) instanceof NullOperation);
+        TestUtilities.expectNullOperation(comparisonRunner.pickOperation(filename));
     }
 
     void expectNullOperationIgnoreSubdirectories(String filename) throws Exception {
-        assertTrue(comparisonRunner.pickOperation(filename) instanceof NullOperationCorrectBackLinkForDirectory);
+        TestUtilities.expectNullOperationIgnoreSubdirectories(comparisonRunner.pickOperation(filename));
     }
 
     void expectRemoveExistingLink(String filename) throws Exception {
-        FileOperation operation = comparisonRunner.pickOperation(filename);
-        assertTrue(operation instanceof RemoveExistingLink);
+        TestUtilities.expectRemoveExistingLink(comparisonRunner.pickOperation(filename));
     }
 
     void expectReportConflict(String filename) throws Exception {
-        FileOperation operation = comparisonRunner.pickOperation(filename);
-        assertTrue(operation instanceof ReportConflict);
+        TestUtilities.expectReportConflict(comparisonRunner.pickOperation(filename));
     }
 
     void expectReportDataFileMissing(String filename) throws Exception {
-        assertTrue(comparisonRunner.pickOperation(filename) instanceof ReportDataFileMissing);
+        TestUtilities.expectReportDataFileMissing(comparisonRunner.pickOperation(filename));
     }
 
     void expectReportConflictForDirectory(String filename) throws Exception {
-        assertTrue(comparisonRunner.pickOperation(filename) instanceof ReportConflictForDirectory);
+        TestUtilities.expectReportConflictForDirectory(comparisonRunner.pickOperation(filename));
     }
 
 }
