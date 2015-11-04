@@ -19,6 +19,5 @@ public class DirectoryMeshTestTestDirectory extends MeshGeneralTestClass {
                 dryRun);
         directoryMesh.linkDataFilesIntoMaster();
         directoryMesh.pruneMasterDirectoryBackLinks();
-        System.out.println("Finished test");
     }
 }
