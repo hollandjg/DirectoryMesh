@@ -7,10 +7,12 @@ import de.jgholland.directorymesh.utilities.FilePair;
  */
 public class ReportConflict extends NullOperation {
     String conflictMessage;
+
     public ReportConflict(String message, FilePair filePair) {
         super(filePair);
         this.conflictMessage = message;
     }
+
     @Override
     public void reportOperation() {
         System.out.printf("Conflict %s: %s%n", filePair.getRelativePathWithinDirectories(), conflictMessage);

@@ -8,6 +8,8 @@ import java.nio.file.FileVisitResult;
 public interface FileOperation {
 
     void reportOperation();
+
     void runOperation();
+
     FileVisitResult getFileVisitResult();
 }

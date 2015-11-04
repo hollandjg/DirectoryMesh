@@ -41,13 +41,14 @@ public class FileCreationUtility {
             System.err.println(e);
         }
     }
+
     public static void removeSymlink(Path softLinkLocation) {
         try {
-        BasicFileAttributes basicFileAttributes = getBasicFileAttributes(softLinkLocation);
-        if (!basicFileAttributes.isSymbolicLink()) {
-            throw new IOException("tried to delete a symlink which wasn't a symlink.");
-        }
-        Files.delete(softLinkLocation);
+            BasicFileAttributes basicFileAttributes = getBasicFileAttributes(softLinkLocation);
+            if (!basicFileAttributes.isSymbolicLink()) {
+                throw new IOException("tried to delete a symlink which wasn't a symlink.");
+            }
+            Files.delete(softLinkLocation);
         } catch (IOException e) {
             System.err.println(e);
         }

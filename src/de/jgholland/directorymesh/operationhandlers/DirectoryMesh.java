@@ -32,12 +32,12 @@ public class DirectoryMesh {
 
 
     private void fileTreeWalkerErrorWrapper(Path path) {
-            try {
-                walkTheFileTreeCarryingOutOperationsAtEachRelevantFile(path);
-            } catch (IOException e) {
-                System.out.printf("Directory walk failed: %s%n", e);
-            }
+        try {
+            walkTheFileTreeCarryingOutOperationsAtEachRelevantFile(path);
+        } catch (IOException e) {
+            System.out.printf("Directory walk failed: %s%n", e);
         }
+    }
 
 
     void walkTheFileTreeCarryingOutOperationsAtEachRelevantFile(Path pathToWalk) throws IOException {
