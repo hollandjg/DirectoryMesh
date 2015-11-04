@@ -60,7 +60,7 @@ public class ComparisonRunner {
         }
 
         if (filePair.oneIsDirectoryAndOneIsRegular()) {
-            return new ReportConflict("One file is a directory and the other is not", filePair);
+            return new ReportConflictForDirectory("One file is a directory and the other is not", filePair);
         }
 
         if (filePair.masterIsABackLinkToTheCorrectDataFile()) {

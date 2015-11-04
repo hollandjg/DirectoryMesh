@@ -15,7 +15,7 @@ public class MakeLink extends OperationOnFilePair {
 
     @Override
     public void runOperation() {
-
+        FileCreationUtility.createSymlink(filePair.dataPath, filePair.masterPath);
     }
 
     @Override

@@ -9,13 +9,16 @@ public class DirectoryMeshTestTestDirectory extends MeshGeneralTestClass {
 
     @Test
     public void testRunDirectoryMesh() throws Exception {
+        setupGeneralTest();
         boolean notQuiet = false;
-        boolean dryRun = true;
+        boolean dryRun = false;
         DirectoryMesh directoryMesh = new DirectoryMesh(
                 masterDataDirectoryPaths.masterDirectoryPathString,
                 masterDataDirectoryPaths.dataDirectoryPathString,
                 notQuiet,
                 dryRun);
         directoryMesh.linkDataFilesIntoMaster();
+        directoryMesh.pruneMasterDirectoryBackLinks();
+        System.out.println("Finished test");
     }
 }

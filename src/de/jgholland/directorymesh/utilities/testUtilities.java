@@ -29,10 +29,6 @@ public class TestUtilities {
         assertTrue(operation instanceof RemoveExistingLink);
     }
 
-    public static void expectReplaceExistingLink(FileOperation operation) throws Exception {
-        assertTrue(operation instanceof ReplaceExistingLink);
-    }
-
     public static void expectReportConflict(FileOperation operation) throws Exception {
         assertTrue(operation instanceof ReportConflict);
     }

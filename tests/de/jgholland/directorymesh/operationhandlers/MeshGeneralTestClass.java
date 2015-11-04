@@ -1,10 +1,13 @@
 package de.jgholland.directorymesh.operationhandlers;
 
+import de.jgholland.directorymesh.operations.*;
 import de.jgholland.directorymesh.testutilities.TestDirectoryEnvironment;
 import de.jgholland.directorymesh.utilities.MasterDataDirectoryPaths;
+import de.jgholland.directorymesh.utilities.TestUtilities;
 import org.junit.After;
 import org.junit.Before;
 
+import java.io.IOException;
 import java.nio.file.Files;
 
 import static org.junit.Assert.assertTrue;
@@ -13,16 +16,25 @@ import static org.junit.Assert.assertTrue;
  * Created by john on 2015-10-28.
  */
 public class MeshGeneralTestClass {
-    TestDirectoryEnvironment testDirectoryEnvironment;
-    MasterDataDirectoryPaths masterDataDirectoryPaths;
+    protected TestDirectoryEnvironment testDirectoryEnvironment;
+    protected MasterDataDirectoryPaths masterDataDirectoryPaths;
     ComparisonRunner comparisonRunner;
 
     @Before
     public void setUp() throws Exception {
-        testDirectoryEnvironment = new TestDirectoryEnvironment("generalTest");
-        masterDataDirectoryPaths = testDirectoryEnvironment.getMasterDataDirectoryPaths();
-        comparisonRunner = new ComparisonRunner(masterDataDirectoryPaths);
+    }
 
+    @After
+    public void tearDown() throws Exception {
+        testDirectoryEnvironment.removeTestDirectories();
+    }
+
+    void setupSimpleTest() throws IOException {
+        setupTest("simpleTest");
+    }
+
+    void setupGeneralTest() throws IOException {
+        setupTest("generalTest");
         /*
         Add some links which can't be stored in the version control system because they are broken.
         If they are missing during the compile, they cause the java compiler to crash.
@@ -37,13 +49,57 @@ public class MeshGeneralTestClass {
         );
     }
 
-    @After
-    public void tearDown() throws Exception {
-        testDirectoryEnvironment.removeTestDirectories();
+
+    private void setupTest(String testName) throws IOException {
+        testDirectoryEnvironment = new TestDirectoryEnvironment(testName);
+        initialiseMasterDataDirectoryPaths();
+        initialiseComparisonRunner();
+    }
+
+    void initialiseMasterDataDirectoryPaths() throws IOException {
+        masterDataDirectoryPaths = testDirectoryEnvironment.getMasterDataDirectoryPaths();
+    }
+
+    void initialiseComparisonRunner() {
+        comparisonRunner = new ComparisonRunner(masterDataDirectoryPaths);
     }
 
     void missingTest() throws Exception {
         assertTrue(false);
+    }
+
+    void expectMakeLink(String filename) throws Exception {
+        TestUtilities.expectMakeLink(comparisonRunner.pickOperation(filename));
+    }
+
+    void expectMakeLinkForDirectory(String filename) throws Exception {
+        TestUtilities.expectMakeLinkForDirectory(comparisonRunner.pickOperation(filename));
+    }
+
+    void expectNullOperation(String filename) throws Exception {
+        assertTrue(comparisonRunner.pickOperation(filename) instanceof NullOperation);
+    }
+
+    void expectNullOperationIgnoreSubdirectories(String filename) throws Exception {
+        assertTrue(comparisonRunner.pickOperation(filename) instanceof NullOperationCorrectBackLinkForDirectory);
+    }
+
+    void expectRemoveExistingLink(String filename) throws Exception {
+        FileOperation operation = comparisonRunner.pickOperation(filename);
+        assertTrue(operation instanceof RemoveExistingLink);
+    }
+
+    void expectReportConflict(String filename) throws Exception {
+        FileOperation operation = comparisonRunner.pickOperation(filename);
+        assertTrue(operation instanceof ReportConflict);
+    }
+
+    void expectReportDataFileMissing(String filename) throws Exception {
+        assertTrue(comparisonRunner.pickOperation(filename) instanceof ReportDataFileMissing);
+    }
+
+    void expectReportConflictForDirectory(String filename) throws Exception {
+        assertTrue(comparisonRunner.pickOperation(filename) instanceof ReportConflictForDirectory);
     }
 
 }

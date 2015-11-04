@@ -10,10 +10,4 @@ public class MakeLinkForDirectory extends MakeLink {
         super(filePair);
         stopFileVisitorFromVisitingSubdirectories();
     }
-
-    @Override
-    public void runOperation() {
-
-    }
-
 }

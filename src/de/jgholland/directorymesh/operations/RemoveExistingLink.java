@@ -1,5 +1,6 @@
 package de.jgholland.directorymesh.operations;
 
+import de.jgholland.directorymesh.utilities.FileCreationUtility;
 import de.jgholland.directorymesh.utilities.FilePair;
 
 /**
@@ -10,17 +11,15 @@ public class RemoveExistingLink extends OperationOnFilePair {
 
     public RemoveExistingLink(FilePair filePair) {
         super(filePair);
-
-
     }
 
     @Override
     public void reportOperation() {
-        System.out.printf("Removing link %s%n", filePair.masterPath);
+        FileCreationUtility.reportRemoveSymink(filePair.abbreviatedMasterPath());
     }
 
     @Override
     public void runOperation() {
-
+        FileCreationUtility.removeSymlink(filePair.masterPath);
     }
 }
