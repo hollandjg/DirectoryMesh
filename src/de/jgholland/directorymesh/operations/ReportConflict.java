@@ -15,7 +15,7 @@ public class ReportConflict extends NullOperation {
 
     @Override
     public void reportOperation() {
-        System.out.printf("Conflict %s: %s%n", filePair.getRelativePathWithinDirectories(), conflictMessage);
+        System.err.printf("Conflict %s: %s%n", filePair.getRelativePathWithinDirectories(), conflictMessage);
     }
 
 }

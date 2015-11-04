@@ -14,7 +14,7 @@ public class ReportDataFileMissing extends NullOperation {
 
     @Override
     public void reportOperation() {
-        System.out.printf("%s is missing.%n", filePair.dataPath);
+        System.err.printf("%s is missing.%n", filePair.abbreviatedDataPath());
     }
 
 }

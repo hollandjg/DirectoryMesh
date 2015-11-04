@@ -10,7 +10,6 @@ public class MakeLink extends OperationOnFilePair {
 
     public MakeLink(FilePair filePair) {
         super(filePair);
-
     }
 
     @Override

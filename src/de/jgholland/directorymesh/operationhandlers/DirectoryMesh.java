@@ -35,7 +35,7 @@ public class DirectoryMesh {
         try {
             walkTheFileTreeCarryingOutOperationsAtEachRelevantFile(path);
         } catch (IOException e) {
-            System.out.printf("Directory walk failed: %s%n", e);
+            System.err.printf("Directory walk failed: %s%n", e);
         }
     }
 
