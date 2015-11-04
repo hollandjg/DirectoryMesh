@@ -13,4 +13,11 @@ public class MainTest extends MeshGeneralTestClass {
         de.jgholland.directorymesh.Main.main(new String[] {"-m", masterDataDirectoryPaths.masterDirectoryPathString, "-d", masterDataDirectoryPaths.dataDirectoryPathString});
 
     }
+
+    @Test
+    public void testMainHelp() throws Exception {
+        setupGeneralTest();
+        de.jgholland.directorymesh.Main.main(new String[] {"-m", masterDataDirectoryPaths.masterDirectoryPathString, "-d", masterDataDirectoryPaths.dataDirectoryPathString, "-h", "-n"});
+
+    }
 }

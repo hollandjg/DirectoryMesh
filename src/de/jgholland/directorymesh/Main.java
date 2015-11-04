@@ -5,40 +5,84 @@ import org.apache.commons.cli.*;
 
 public class Main {
 
-    static Options optionDeclarations;
+    static Options options;
     static CommandLine commandLine;
     static DirectoryMesh directoryMesh;
+    static String ApplicationName = "DirectoryMesh";
+    static String descriptionOfTheTool = "Recursively symlink the data directory in the master directory.\n\n";
+    static String contactDataForIssueReporting = "\nPlease report issues at https://github.com/hollandjg/DirectoryMesh";
     static String masterPathOptionName = "masterPath";
     static String dataPathOptionName = "dataPath";
     static String dryRunOptionName = "dryRun";
     static String quietOptionName = "quiet";
     static String pruneOptionName = "prune";
+    static String helpOptionName = "help";
 
     public static void main(String[] args) throws Exception {
         declareOptions();
-        parseCommandLineArguments(args, optionDeclarations);
+        parseCommandLineArguments(args, options);
         initialiseDirectoryMeshObjectWithOptions();
         runDirectoryMesh();
     }
 
     private static void declareOptions() {
-        optionDeclarations = new Options();
-        Option masterPath = Option.builder("m").longOpt(masterPathOptionName).required(true).type(String.class).hasArg().desc("path where the user wants easy access to the external data").build();
-        optionDeclarations.addOption(masterPath);
-        Option dataPath = Option.builder("d").longOpt(dataPathOptionName).required(true).type(String.class).hasArg().desc("path containing the external data").build();
-        optionDeclarations.addOption(dataPath);
-        optionDeclarations.addOption("n", dryRunOptionName, false, "dry run");
-        optionDeclarations.addOption("q", quietOptionName, false, "quiet");
-        optionDeclarations.addOption("p", pruneOptionName, false, "prune incorrect links");
+        options = new Options();
+
+        Option masterPath = Option
+                .builder("m")
+                .longOpt(masterPathOptionName)
+                .argName(masterPathOptionName)
+                .required(true)
+                .type(String.class)
+                .hasArg()
+                .desc("path where the data are linked")
+                .build();
+
+        Option dataPath = Option
+                .builder("d")
+                .longOpt(dataPathOptionName)
+                .argName(dataPathOptionName)
+                .required(true)
+                .type(String.class)
+                .hasArg()
+                .desc("path with external data")
+                .build();
+
+        options.addOption(masterPath);
+        options.addOption(dataPath);
+        options.addOption("h", helpOptionName, false, "display help and quit");
+        options.addOption("n", dryRunOptionName, false, "dry run");
+        options.addOption("q", quietOptionName, false, "quiet");
+        options.addOption("p", pruneOptionName, false, "prune incorrect links");
+
     }
 
     private static void parseCommandLineArguments(String[] args, Options options) {
+        initialiseCommandLineParser(args, options);
+        printHelpAndExitIfReqired(options);
+    }
+
+    private static void initialiseCommandLineParser(String[] args, Options options) {
         CommandLineParser parser = new DefaultParser();
         try {
             commandLine = parser.parse(options, args);
         } catch (ParseException exp) {
             System.err.println("Parsing failed.  Reason: " + exp.getMessage());
         }
+    }
+
+    private static void printHelpAndExitIfReqired(Options options) {
+        HelpFormatter formatter = new HelpFormatter();
+        makeOptionsAppearInTheOrderInWhichTheyWereDeclared(formatter);
+        boolean autoUsageOn = true;
+        formatter.printHelp(ApplicationName, descriptionOfTheTool, options, contactDataForIssueReporting, autoUsageOn);
+        if (commandLine.hasOption(helpOptionName)) {
+            System.exit(1);
+        }
+    }
+
+    private static void makeOptionsAppearInTheOrderInWhichTheyWereDeclared(HelpFormatter formatter) {
+        formatter.setOptionComparator(null);
     }
 
     private static void initialiseDirectoryMeshObjectWithOptions() {
