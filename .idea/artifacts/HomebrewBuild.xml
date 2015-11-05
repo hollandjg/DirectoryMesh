@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact name="HomebrewBuild">
-    <output-path>$USER_HOME$/Desktop/DirectoryMesh</output-path>
+    <output-path>$PROJECT_DIR$/out/artifacts/HomebrewBuild</output-path>
     <root id="root">
       <element id="file-copy" path="$PROJECT_DIR$/extras/homebrewBuildContent/directorymesh" />
       <element id="artifact" artifact-name="DirectoryMesh:jar" />
