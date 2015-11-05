@@ -89,5 +89,5 @@ After running the mesh, the filestructure looks like this:
  - The broken link at `[master]/Projects/Doctorate/OldFile` has been pruned. 
  - If any conflicts arise during the mesh, such as two regular files in the same location, the file reports the conflict and doesn't do anything with those files. `DirectoryMesh` continues regardless.
  - It should not delete any files which aren't symlinks or which are not links back to locations within `[data]`. 
- - Running the mesh on a directory which has already been meshed should cause no problems. New links will be added and (if the --prune option is specified) broken links will be removed. 
+ - Running the mesh on a directory which has already been meshed should cause no problems. New links will be added and if the --prune option is specified broken links will be removed. 
    
