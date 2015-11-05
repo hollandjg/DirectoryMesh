@@ -50,8 +50,6 @@ The two directories are meshed together using the shell command:
 
 ```bash
 java -jar DirectoryMesh.jar --dryRun --prune -m [master] -d [data]
-# After checking that the correct operations are going to be performed and dealing with any conflicts reported,
-# remove the --dryRun option to actually carry out the meshing operation. 
 ```
 
 or if you wish to install using homebrew:
@@ -61,6 +59,9 @@ brew tap hollandjg/tap
 brew install directorymesh
 directorymesh --dryRun --prune -m [master] -d [data]
 ```
+
+After checking that the correct operations are going to be performed having dealt with any conflicts, remove `--dryRun` to carry out the meshing operation. 
+
 
 A concrete example, where `/Users/john` is on an SSD and `/Volumes/data` is a large capacity external drive:
 
