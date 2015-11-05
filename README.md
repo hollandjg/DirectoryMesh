@@ -27,11 +27,11 @@ The user defines a sensible directory structure in master (which we assume to be
     │    └─── Letters
     ├─── Projects
     │    ├─── Doctorate
-    │    │    ├─── MediumSizedDataFile -> [data]/Projects/Doctorate/MediumSizedDataFiles
+    │    │    ├─── OldFile -> [data]/Projects/Doctorate/OldFile
     │    │    └─── Thesis
     │    └─── MoonlightingAsASecurityConsultant
     └─── Music
-         └─── DigitalAudioWorkstationProjects
+         └─── DAWProjects
               └─── CurrentProject
               
 
@@ -43,7 +43,7 @@ The required subset of the structure is implemented on the data drive:
     │    └─── Doctorate
     │         └─── LargeDataFile
     └─── Music
-         └─── DigitalAudioWorkstationProjects
+         └─── DAWProjects
               └─── ArchivedProject
    
 The two directories are meshed together using the shell command:
@@ -68,10 +68,6 @@ A concrete example, where `/Users/john` is on an SSD and `/Volumes/data` is a la
 directorymesh --dryRun --prune -m /Users/john -d /Volumes/data/john
 ```
 
-
-
-Note that any conflicts will not cause a crash and the utility will continue regardless.
-
 After running the mesh, the filestructure looks like this:
 
         [master]
@@ -84,13 +80,13 @@ After running the mesh, the filestructure looks like this:
         │    │    └─── Thesis
         │    └─── MoonlightingAsASecurityConsultant
         └─── Music
-             └─── DigitalAudioWorkstationProjects
-                  ├─── ArchivedProject -> [data]/Music/DigitalAudioWorkstationProjects/ArchivedProject
+             └─── DAWProjects
+                  ├─── ArchivedProject -> [data]/Music/DAWProjects/ArchivedProject
                   └─── CurrentProject
 
 
- - The broken link at `[master]/Projects/Doctorate/MediumSizedDataFile` has been pruned. 
- - If any conflicts arise during the mesh, such as two regular files in the same location, the file reports the conflict and doesn't do anything with those files. 
+ - The broken link at `[master]/Projects/Doctorate/OldFile` has been pruned. 
+ - If any conflicts arise during the mesh, such as two regular files in the same location, the file reports the conflict and doesn't do anything with those files. `DirectoryMesh` continues regardless.
  - It should not delete any files which aren't symlinks or which are not links back to locations within `[data]`. 
  - Running the mesh on a directory which has already been meshed should cause no problems. New links will be added and (if the --prune option is specified) broken links will be removed. 
    
