@@ -3,8 +3,8 @@
     <output-path>$USER_HOME$/Desktop/DirectoryMesh</output-path>
     <root id="root">
       <element id="file-copy" path="$PROJECT_DIR$/extras/homebrewBuildContent/directorymesh" />
-      <element id="dir-copy" path="$PROJECT_DIR$/extras/homebrewBuildContent/brew" />
       <element id="artifact" artifact-name="DirectoryMesh:jar" />
+      <element id="dir-copy" path="$PROJECT_DIR$/extras/homebrewBuildContent" />
     </root>
   </artifact>
 </component>
