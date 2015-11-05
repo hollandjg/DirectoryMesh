@@ -1,0 +1,13 @@
+<component name="ArtifactManager">
+  <artifact name="HomebrewTarGzArchive">
+    <output-path>$PROJECT_DIR$/out/artifacts/HomebrewTarGzArchive</output-path>
+    <root id="root">
+      <element id="archive" name="DirectoryMesh.tar.gz">
+        <element id="artifact" artifact-name="DirectoryMesh:jar" />
+        <element id="dir-copy" path="$PROJECT_DIR$/extras/homebrewBuildContent" />
+        <element id="file-copy" path="$PROJECT_DIR$/LICENSE.txt" />
+        <element id="file-copy" path="$PROJECT_DIR$/README.md" />
+      </element>
+    </root>
+  </artifact>
+</component>

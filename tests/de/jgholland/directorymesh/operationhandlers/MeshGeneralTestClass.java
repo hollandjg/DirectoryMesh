@@ -2,7 +2,7 @@ package de.jgholland.directorymesh.operationhandlers;
 
 import de.jgholland.directorymesh.testutilities.TestDirectoryEnvironment;
 import de.jgholland.directorymesh.utilities.MasterDataDirectoryPaths;
-import de.jgholland.directorymesh.utilities.TestUtilities;
+import de.jgholland.directorymesh.utilities.CorrectFileOperationAssertions;
 import org.junit.After;
 import org.junit.Before;
 
@@ -68,35 +68,35 @@ public class MeshGeneralTestClass {
     }
 
     void expectMakeLink(String filename) throws Exception {
-        TestUtilities.expectMakeLink(comparisonRunner.pickOperation(filename));
+        CorrectFileOperationAssertions.expectMakeLink(comparisonRunner.pickOperation(filename));
     }
 
     void expectMakeLinkForDirectory(String filename) throws Exception {
-        TestUtilities.expectMakeLinkForDirectory(comparisonRunner.pickOperation(filename));
+        CorrectFileOperationAssertions.expectMakeLinkForDirectory(comparisonRunner.pickOperation(filename));
     }
 
     void expectNullOperation(String filename) throws Exception {
-        TestUtilities.expectNullOperation(comparisonRunner.pickOperation(filename));
+        CorrectFileOperationAssertions.expectNullOperation(comparisonRunner.pickOperation(filename));
     }
 
     void expectNullOperationIgnoreSubdirectories(String filename) throws Exception {
-        TestUtilities.expectNullOperationIgnoreSubdirectories(comparisonRunner.pickOperation(filename));
+        CorrectFileOperationAssertions.expectNullOperationIgnoreSubdirectories(comparisonRunner.pickOperation(filename));
     }
 
     void expectRemoveExistingLink(String filename) throws Exception {
-        TestUtilities.expectRemoveExistingLink(comparisonRunner.pickOperation(filename));
+        CorrectFileOperationAssertions.expectRemoveExistingLink(comparisonRunner.pickOperation(filename));
     }
 
     void expectReportConflict(String filename) throws Exception {
-        TestUtilities.expectReportConflict(comparisonRunner.pickOperation(filename));
+        CorrectFileOperationAssertions.expectReportConflict(comparisonRunner.pickOperation(filename));
     }
 
     void expectReportDataFileMissing(String filename) throws Exception {
-        TestUtilities.expectReportDataFileMissing(comparisonRunner.pickOperation(filename));
+        CorrectFileOperationAssertions.expectReportDataFileMissing(comparisonRunner.pickOperation(filename));
     }
 
     void expectReportConflictForDirectory(String filename) throws Exception {
-        TestUtilities.expectReportConflictForDirectory(comparisonRunner.pickOperation(filename));
+        CorrectFileOperationAssertions.expectReportConflictForDirectory(comparisonRunner.pickOperation(filename));
     }
 
 }

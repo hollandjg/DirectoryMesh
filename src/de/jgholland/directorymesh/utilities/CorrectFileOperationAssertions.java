@@ -7,7 +7,7 @@ import static org.junit.Assert.assertTrue;
 /**
  * Created by john on 2015-11-04.
  */
-public class TestUtilities {
+public class CorrectFileOperationAssertions {
 
     public static void expectMakeLink(FileOperation operation) throws Exception {
         assertTrue(operation instanceof MakeLink);
