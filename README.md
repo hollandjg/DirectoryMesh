@@ -52,14 +52,6 @@ The two directories are meshed together using the shell command:
 java -jar DirectoryMesh.jar --dryRun --prune -m [master] -d [data]
 ```
 
-or if you wish to install using homebrew:
-
-```bash
-brew tap hollandjg/tap 
-brew install directorymesh
-directorymesh --dryRun --prune -m [master] -d [data]
-```
-
 After checking that the correct operations are going to be performed having dealt with any conflicts, remove `--dryRun` to carry out the meshing operation. 
 
 
@@ -86,8 +78,22 @@ After running the mesh, the filestructure looks like this:
                   └─── CurrentProject
 
 
- - The broken link at `[master]/Projects/Doctorate/OldFile` has been pruned. 
- - If any conflicts arise during the mesh, such as two regular files in the same location, the file reports the conflict and doesn't do anything with those files. `DirectoryMesh` continues regardless.
- - It should not delete any files which aren't symlinks or which are not links back to locations within `[data]`. 
- - Running the mesh on a directory which has already been meshed should cause no problems. New links will be added and if the --prune option is specified broken links will be removed. 
-   
+- The broken link at `[master]/Projects/Doctorate/OldFile` has been pruned. 
+- If any conflicts arise during the mesh, such as two regular files in the same location, the file reports the conflict and doesn't do anything with those files. `DirectoryMesh` continues regardless.
+- It should not delete any files which aren't symlinks or which are not links back to locations within `[data]`. 
+- Running the mesh on a directory which has already been meshed should cause no problems. New links will be added and if the --prune option is specified broken links will be removed. 
+  
+Installation 
+------------
+
+Prerequisites: Java 8
+
+Download the latest DirectoryMesh.jar from https://github.com/hollandjg/DirectoryMesh/releases/
+
+If you're on a Mac, you can install the .jar and a wrapper script using homebrew:
+
+```bash
+brew tap hollandjg/tap 
+brew install directorymesh
+directorymesh --dryRun --prune -m [master] -d [data]
+```
